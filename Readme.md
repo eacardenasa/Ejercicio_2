@@ -130,19 +130,21 @@ uvicorn app.main:app –reload
 
 ### 1. Post: http://127.0.0.1:8000/estimate
 
-
+ ![Health](screenshots/bodyEstimate.png)
+ 
+ ![Health](screenshots/reponseHistory.png)
  
 ---
 
 ### 2. Post: http://127.0.0.1:8000/estimate | Error
 
-
+ ![Health](screenshots/errorEstimate.png)
 
 ---
 
 ### 3. Get: http://127.0.0.1:8000/history
 
-
+ ![Health](screenshots/reponseHistory.png)
  
 ---
 
