@@ -1,0 +1,34 @@
+from pydantic import BaseModel, Field
+from typing import Literal
+
+
+class LocationInput(BaseModel):
+    lat: float = Field(..., description="Latitud")
+    lng: float = Field(..., description="Longitud")
+
+
+class EstimateRequest(BaseModel):
+    origin: LocationInput
+    destination: LocationInput
+    vehicle_type: Literal["economy", "premium", "xl"] = "economy"
+
+
+class FareBreakdown(BaseModel):
+    base_fare: float
+    cost_per_km: float
+    cost_per_min: float
+    distance_cost: float
+    time_cost: float
+    multiplier: float
+    estimated_total: float
+    currency: str
+
+
+class EstimateResponse(BaseModel):
+    origin: LocationInput
+    destination: LocationInput
+    profile: str
+    distance_km: float
+    duration_min: float
+    vehicle_type: str
+    fare: FareBreakdown

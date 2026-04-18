@@ -1,0 +1,69 @@
+import requests
+from fastapi import HTTPException
+from app.config import (
+    MAPBOX_ACCESS_TOKEN,
+    BASE_FARE,
+    COST_PER_KM,
+    COST_PER_MIN,
+    CURRENCY,
+)
+
+MAPBOX_URL = "https://api.mapbox.com/directions/v5/mapbox"
+
+
+VEHICLE_MULTIPLIERS = {
+    "economy": 1.0,
+    "premium": 1.4,
+    "xl": 1.8,
+}
+
+
+def get_route_from_mapbox(origin, destination, profile="driving"):
+    if not MAPBOX_ACCESS_TOKEN:
+        raise HTTPException(status_code=500, detail="Falta MAPBOX_ACCESS_TOKEN")
+
+    coordinates = f"{origin['lng']},{origin['lat']};{destination['lng']},{destination['lat']}"
+    url = f"{MAPBOX_URL}/{profile}/{coordinates}"
+
+    params = {
+        "access_token": MAPBOX_ACCESS_TOKEN,
+        "overview": "simplified"
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    data = response.json()
+
+    if not data.get("routes"):
+        raise HTTPException(status_code=404, detail="No se encontró ruta")
+
+    route = data["routes"][0]
+
+    distance_km = round(route["distance"] / 1000, 2)
+    duration_min = round(route["duration"] / 60, 2)
+
+    return distance_km, duration_min
+
+
+def calculate_fare(distance_km, duration_min, vehicle_type):
+    multiplier = VEHICLE_MULTIPLIERS.get(vehicle_type, 1.0)
+
+    distance_cost = distance_km * COST_PER_KM
+    time_cost = duration_min * COST_PER_MIN
+
+    total = (BASE_FARE + distance_cost + time_cost) * multiplier
+
+    return {
+        "base_fare": BASE_FARE,
+        "cost_per_km": COST_PER_KM,
+        "cost_per_min": COST_PER_MIN,
+        "distance_cost": round(distance_cost, 2),
+        "time_cost": round(time_cost, 2),
+        "multiplier": multiplier,
+        "estimated_total": round(total, 2),
+        "currency": CURRENCY,
+    }
