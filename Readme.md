@@ -50,7 +50,7 @@ El API permite estimar viajes con las siguientes características:
 
 ---
 
-##🔗 Endpoints disponibles
+## 🔗 Endpoints disponibles
 
 | Método | Endpoint      | Descripción             |
 | ------ | ------------- | ----------------------- |
@@ -61,7 +61,7 @@ El API permite estimar viajes con las siguientes características:
 
 ---
 
-##▶️ Ejecución del proyecto
+## ▶️ Ejecución del proyecto
 
 ### Crear entorno virtual
 
@@ -159,7 +159,7 @@ El API maneja correctamente:
   
 ---
 
-##💡 Mejoras implementadas
+## 💡 Mejoras implementadas
 
 * Integración con Mapbox Directions API
 * Cálculo dinámico de tarifas
