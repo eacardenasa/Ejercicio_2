@@ -180,7 +180,8 @@ Se logró construir un API REST funcional que integra un servicio externo real, 
 - **Santiago Bravo**
 - **Manuel Vicente**
 
-
+---
+Pregunta para el trabajo final:
 ¿Cómo podría un atacante manipular estos parámetros  para generar un consumo excesivo de la API de Mapbox a través de tu servicio, y qué impacto tendría esto en términos de costos y disponibilidad del sistema?
 
 El endpoint /estimate representa un punto crítico dentro del API, ya que actúa como intermediario directo entre el usuario y el servicio externo de Mapbox. Esta arquitectura, aunque es eficiente para obtener datos en tiempo real, también abre la posibilidad de que un atacante abuse del sistema mediante la automatización de solicitudes. Al manipular los parámetros de entrada, como coordenadas o tipo de vehículo, y generar múltiples peticiones de forma masiva, el atacante puede provocar un consumo excesivo de la API externa sin necesidad de vulnerar directamente la infraestructura del servidor.
